@@ -1,0 +1,84 @@
+🚀 Ultimate Prompt for Lovable AI
+Build me a complete MERN project called ReelWrite AI with the following requirements:
+
+🎯 Project Goal
+An AI-powered script generator for content creators where users log in, select content parameters, and receive unique viral scripts with engaging hooks, body, and CTAs.
+
+🛠️ Tech Stack
+Frontend: React.js + Tailwind CSS + Framer Motion
+
+Backend: Node.js + Express
+
+Database: MongoDB Atlas (Free Tier)
+
+Authentication: JWT-based login/signup
+
+AI Integration: Free Hugging Face NLP models (e.g., T5, GPT-J)
+
+Deployment: Local setup (no hosting required yet)
+
+✅ Core Features (MVP)
+JWT Authentication (Signup, Login, Logout)
+
+Redirect users to Script Generator Dashboard after login.
+
+Unauthenticated users should not access the generator.
+
+Script Generator
+
+Users enter: Niche, Content Type, Tone & Style, Script Length, and optional notes.
+
+Generate unique AI-powered scripts (Hook, Body, CTA) on each request using Hugging Face.
+
+Include regenerate and copy to clipboard options.
+
+Allow users to save scripts to their account.
+
+UI Design
+
+Keep the same design: white base + bright accent colors (Electric Blue, Neon Pink, Lime Green).
+
+Smooth animations and transitions using Framer Motion.
+
+Use a responsive layout.
+
+Navigation & Buttons
+
+Make all navbar buttons work:
+
+Features → scroll to Features section
+
+Pricing → scroll to Pricing section
+
+About → scroll to About section
+
+Log In → go to Login page
+
+Get Started → go to Signup/Login based on user state
+
+Home page buttons:
+
+Start Creating Scripts → open Script Generator (login required)
+
+Watch Demo → open a placeholder YouTube link
+
+Saved Scripts Dashboard
+
+Users can view, regenerate, copy, and delete saved scripts.
+
+🌟 Extra Enhancements
+Ensure each script generation call returns a unique output by adding random variations to the AI prompt.
+
+Add basic error handling and loading indicators for API calls.
+
+Provide clear setup instructions in the README.
+
+🔒 Future Scalability
+Keep code modular to add features later (premium plans, analytics, AI voiceovers, etc.).
+
+🧑‍💻 Lovable Task
+✅ Build this project with all the above features implemented and working.
+✅ Make sure all buttons and links are functional.
+✅ Keep the current UI style intact while fixing the broken functionalities.
+✅ Connect Hugging Face AI properly so scripts regenerate uniquely.
+✅ Include a clean project structure and easy-to-follow setup instructions.
