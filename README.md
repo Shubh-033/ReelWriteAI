@@ -2,6 +2,8 @@
 
 ReelWrite AI is a modern web application that helps content creators generate engaging social media scripts using AI-powered technology. The platform provides users with a comprehensive script generation tool that creates viral-ready content with attention-grabbing hooks, compelling body content, and effective call-to-actions. Built as a full-stack TypeScript application, it combines the power of React with Express.js and leverages Hugging Face's AI models for intelligent content generation.
 
+
+🔗 **Live Site**: [https://reelwrite-ai.netlify.app]
 # User Preferences
 
 Preferred communication style: Simple, everyday language.
