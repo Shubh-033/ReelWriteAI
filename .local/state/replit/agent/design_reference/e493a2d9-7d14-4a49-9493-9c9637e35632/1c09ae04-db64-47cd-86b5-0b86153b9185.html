@@ -1,0 +1,885 @@
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReelWrite AI - AI-Powered Script Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'electric-blue': '#00BFFF',
+                        'neon-pink': '#FF1493',
+                        'lime-green': '#32CD32',
+                    },
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'float': 'float 6s ease-in-out infinite',
+                        'pulse-slow': 'pulse 3s ease-in-out infinite',
+                        'bounce-slow': 'bounce 2s infinite',
+                    }
+                }
+            }
+        };
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <style>
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+        
+        .gradient-bg {
+            background: linear-gradient(135deg, #00BFFF 0%, #FF1493 50%, #32CD32 100%);
+        }
+        
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.25);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+        
+        .hover-lift {
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        
+        .hover-lift:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.1);
+        }
+    </style>
+</head>
+<body class="font-inter bg-white">
+    <!-- Navigation -->
+    <nav class="fixed top-0 left-0 right-0 z-50 bg-white/90 backdrop-blur-md border-b border-gray-100">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2">
+                    <div class="w-8 h-8 gradient-bg rounded-lg flex items-center justify-center">
+                        <i class="fas fa-pen-nib text-white text-sm"></i>
+                    </div>
+                    <span class="text-xl font-bold text-gray-900">ReelWrite AI</span>
+                </div>
+                
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#features" class="text-gray-600 hover:text-electric-blue transition-colors cursor-pointer">Features</a>
+                    <a href="#community" class="text-gray-600 hover:text-neon-pink transition-colors cursor-pointer">Community</a>
+                    <a href="#about" class="text-gray-600 hover:text-lime-green transition-colors cursor-pointer">About</a>
+                </div>
+                
+                <div class="flex items-center space-x-4">
+                    <button onclick="showLogin()" class="text-gray-600 hover:text-gray-900 transition-colors">Log In</button>
+                    <button onclick="showSignup()" class="bg-gradient-to-r from-electric-blue to-neon-pink text-white px-6 py-2 rounded-lg hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+                        Get Started
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content Container -->
+    <div id="app-content">
+        <!-- Landing Page -->
+        <div id="landing-page">
+            <!-- Hero Section -->
+            <section class="pt-24 pb-20 bg-gradient-to-br from-blue-50 via-purple-50 to-green-50">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="grid lg:grid-cols-2 gap-12 items-center">
+                        <div class="space-y-8">
+                            <div class="space-y-4">
+                                <h1 class="text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
+                                    Create Viral Scripts with 
+                                    <span class="bg-gradient-to-r from-electric-blue via-neon-pink to-lime-green bg-clip-text text-transparent">
+                                        AI Power
+                                    </span>
+                                </h1>
+                                <p class="text-xl text-gray-600 leading-relaxed">
+                                    Generate engaging hooks, compelling content, and powerful CTAs for your social media content in seconds. Join thousands of creators scaling their content with AI.
+                                </p>
+                            </div>
+                            
+                            <div class="flex flex-col sm:flex-row gap-4">
+                                <button onclick="showScriptGenerator()" class="bg-gradient-to-r from-electric-blue to-neon-pink text-white px-8 py-4 rounded-xl font-semibold text-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                                    <i class="fas fa-rocket mr-2"></i>
+                                    Start Creating Scripts
+                                </button>
+                                <button onclick="openDemo()" class="border-2 border-gray-300 text-gray-700 px-8 py-4 rounded-xl font-semibold text-lg hover:border-electric-blue hover:text-electric-blue transition-all duration-300">
+                                    <i class="fas fa-play mr-2"></i>
+                                    Watch Demo
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="relative">
+                            <!-- Dashboard Preview with animated scripts -->
+                            <div class="bg-white rounded-2xl shadow-2xl p-6 hover-lift">
+                                <div class="flex items-center justify-between mb-4">
+                                    <h3 class="text-lg font-semibold text-gray-900">Script Generator</h3>
+                                    <div class="flex space-x-2">
+                                        <div class="w-3 h-3 bg-red-400 rounded-full"></div>
+                                        <div class="w-3 h-3 bg-yellow-400 rounded-full"></div>
+                                        <div class="w-3 h-3 bg-green-400 rounded-full"></div>
+                                    </div>
+                                </div>
+                                
+                                <div class="space-y-4">
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <div class="bg-gray-50 rounded-lg p-3">
+                                            <label class="text-sm text-gray-600">Niche</label>
+                                            <div class="text-electric-blue font-medium">Fitness</div>
+                                        </div>
+                                        <div class="bg-gray-50 rounded-lg p-3">
+                                            <label class="text-sm text-gray-600">Content Type</label>
+                                            <div class="text-neon-pink font-medium">Instagram Reel</div>
+                                        </div>
+                                    </div>
+                                    
+                                    <div class="bg-gradient-to-r from-electric-blue/10 to-neon-pink/10 rounded-lg p-4">
+                                        <div class="text-sm text-gray-600 mb-2">Generated Script</div>
+                                        <div class="space-y-2 text-sm">
+                                            <div><strong>Hook:</strong> "This 30-second morning routine will..."</div>
+                                            <div><strong>Body:</strong> "Transform your energy levels..."</div>
+                                            <div><strong>CTA:</strong> "Follow for more fitness tips!"</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <!-- Floating elements -->
+                            <div class="absolute -top-4 -right-4 w-12 h-12 bg-lime-green rounded-full flex items-center justify-center animate-bounce-slow">
+                                <i class="fas fa-magic text-white"></i>
+                            </div>
+                            <div class="absolute -bottom-4 -left-4 w-16 h-16 bg-neon-pink/20 rounded-full animate-pulse-slow"></div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Features Section -->
+            <section id="features" class="py-20 bg-white">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center mb-16">
+                        <h2 class="text-4xl font-bold text-gray-900 mb-4">Powerful Features for Content Creators</h2>
+                        <p class="text-xl text-gray-600 max-w-3xl mx-auto">Everything you need to create engaging, viral content with the power of AI</p>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-3 gap-8">
+                        <div class="bg-white rounded-xl p-8 shadow-lg hover-lift border border-gray-100">
+                            <div class="w-12 h-12 bg-electric-blue/10 rounded-lg flex items-center justify-center mb-6">
+                                <i class="fas fa-brain text-electric-blue text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold text-gray-900 mb-4">AI-Powered Generation</h3>
+                            <p class="text-gray-600">Advanced AI models create unique, engaging scripts tailored to your niche and audience</p>
+                        </div>
+                        
+                        <div class="bg-white rounded-xl p-8 shadow-lg hover-lift border border-gray-100">
+                            <div class="w-12 h-12 bg-neon-pink/10 rounded-lg flex items-center justify-center mb-6">
+                                <i class="fas fa-save text-neon-pink text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold text-gray-900 mb-4">Save & Organize</h3>
+                            <p class="text-gray-600">Keep all your scripts organized in your personal dashboard with easy search and filtering</p>
+                        </div>
+                        
+                        <div class="bg-white rounded-xl p-8 shadow-lg hover-lift border border-gray-100">
+                            <div class="w-12 h-12 bg-lime-green/10 rounded-lg flex items-center justify-center mb-6">
+                                <i class="fas fa-chart-line text-lime-green text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-semibold text-gray-900 mb-4">Performance Analytics</h3>
+                            <p class="text-gray-600">Track your content creation progress and see which scripts perform best</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Community Section -->
+            <section id="community" class="py-20 bg-gray-50">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="text-center mb-16">
+                        <h2 class="text-4xl font-bold text-gray-900 mb-4">Community Showcase</h2>
+                        <p class="text-xl text-gray-600">See what amazing content our creators are generating</p>
+                    </div>
+                    
+                    <div class="grid md:grid-cols-3 gap-6">
+                        <div class="bg-white rounded-xl p-6 shadow-lg hover-lift">
+                            <div class="flex items-center mb-4">
+                                <div class="w-10 h-10 bg-gradient-to-r from-electric-blue to-neon-pink rounded-full flex items-center justify-center">
+                                    <i class="fas fa-user text-white text-sm"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <div class="font-semibold text-gray-900">@fitnessCreator</div>
+                                    <div class="text-sm text-gray-600">Fitness • Instagram</div>
+                                </div>
+                            </div>
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <div class="text-sm text-gray-800">"Transform your morning routine with this 5-minute workout that burns 100 calories..."</div>
+                            </div>
+                            <div class="flex items-center justify-between mt-4">
+                                <div class="flex items-center space-x-4 text-sm text-gray-600">
+                                    <span><i class="fas fa-heart text-red-400"></i> 1.2k</span>
+                                    <span><i class="fas fa-share text-blue-400"></i> 234</span>
+                                </div>
+                                <span class="text-xs bg-lime-green/10 text-lime-green px-2 py-1 rounded-full">Trending</span>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white rounded-xl p-6 shadow-lg hover-lift">
+                            <div class="flex items-center mb-4">
+                                <div class="w-10 h-10 bg-gradient-to-r from-neon-pink to-lime-green rounded-full flex items-center justify-center">
+                                    <i class="fas fa-user text-white text-sm"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <div class="font-semibold text-gray-900">@techReviewer</div>
+                                    <div class="text-sm text-gray-600">Tech • YouTube</div>
+                                </div>
+                            </div>
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <div class="text-sm text-gray-800">"This iPhone feature will change everything you know about photography..."</div>
+                            </div>
+                            <div class="flex items-center justify-between mt-4">
+                                <div class="flex items-center space-x-4 text-sm text-gray-600">
+                                    <span><i class="fas fa-heart text-red-400"></i> 856</span>
+                                    <span><i class="fas fa-share text-blue-400"></i> 127</span>
+                                </div>
+                                <span class="text-xs bg-electric-blue/10 text-electric-blue px-2 py-1 rounded-full">New</span>
+                            </div>
+                        </div>
+                        
+                        <div class="bg-white rounded-xl p-6 shadow-lg hover-lift">
+                            <div class="flex items-center mb-4">
+                                <div class="w-10 h-10 bg-gradient-to-r from-lime-green to-electric-blue rounded-full flex items-center justify-center">
+                                    <i class="fas fa-user text-white text-sm"></i>
+                                </div>
+                                <div class="ml-3">
+                                    <div class="font-semibold text-gray-900">@foodieBlogger</div>
+                                    <div class="text-sm text-gray-600">Food • TikTok</div>
+                                </div>
+                            </div>
+                            <div class="bg-gray-50 rounded-lg p-4">
+                                <div class="text-sm text-gray-800">"The secret ingredient that will make your pasta taste like a 5-star restaurant..."</div>
+                            </div>
+                            <div class="flex items-center justify-between mt-4">
+                                <div class="flex items-center space-x-4 text-sm text-gray-600">
+                                    <span><i class="fas fa-heart text-red-400"></i> 2.1k</span>
+                                    <span><i class="fas fa-share text-blue-400"></i> 445</span>
+                                </div>
+                                <span class="text-xs bg-neon-pink/10 text-neon-pink px-2 py-1 rounded-full">Viral</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- About Section -->
+            <section id="about" class="py-20 bg-white">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="grid lg:grid-cols-2 gap-12 items-center">
+                        <div>
+                            <h2 class="text-4xl font-bold text-gray-900 mb-6">About ReelWrite AI</h2>
+                            <p class="text-lg text-gray-600 mb-6">
+                                We're revolutionizing content creation with AI-powered script generation. Our platform helps creators, marketers, and businesses generate engaging content that resonates with their audience and drives results.
+                            </p>
+                            <div class="space-y-4">
+                                <div class="flex items-center">
+                                    <div class="w-6 h-6 bg-electric-blue rounded-full flex items-center justify-center mr-3">
+                                        <i class="fas fa-check text-white text-xs"></i>
+                                    </div>
+                                    <span class="text-gray-700">Free Hugging Face AI integration</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="w-6 h-6 bg-neon-pink rounded-full flex items-center justify-center mr-3">
+                                        <i class="fas fa-check text-white text-xs"></i>
+                                    </div>
+                                    <span class="text-gray-700">Unlimited script generation</span>
+                                </div>
+                                <div class="flex items-center">
+                                    <div class="w-6 h-6 bg-lime-green rounded-full flex items-center justify-center mr-3">
+                                        <i class="fas fa-check text-white text-xs"></i>
+                                    </div>
+                                    <span class="text-gray-700">Community-driven insights</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="relative">
+                            <!-- Animated statistics cards -->
+                            <div class="grid grid-cols-2 gap-6">
+                                <div class="bg-gradient-to-br from-electric-blue/10 to-electric-blue/5 rounded-xl p-6 hover-lift">
+                                    <div class="text-2xl font-bold text-electric-blue mb-2">10K+</div>
+                                    <div class="text-sm text-gray-600">Scripts Generated</div>
+                                </div>
+                                <div class="bg-gradient-to-br from-neon-pink/10 to-neon-pink/5 rounded-xl p-6 hover-lift">
+                                    <div class="text-2xl font-bold text-neon-pink mb-2">500+</div>
+                                    <div class="text-sm text-gray-600">Active Creators</div>
+                                </div>
+                                <div class="bg-gradient-to-br from-lime-green/10 to-lime-green/5 rounded-xl p-6 hover-lift">
+                                    <div class="text-2xl font-bold text-lime-green mb-2">95%</div>
+                                    <div class="text-sm text-gray-600">User Satisfaction</div>
+                                </div>
+                                <div class="bg-gradient-to-br from-purple-500/10 to-purple-500/5 rounded-xl p-6 hover-lift">
+                                    <div class="text-2xl font-bold text-purple-500 mb-2">24/7</div>
+                                    <div class="text-sm text-gray-600">AI Availability</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </section>
+        </div>
+
+        <!-- Authentication Modal -->
+        <div id="auth-modal" class="hidden fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+            <div class="bg-white rounded-2xl shadow-2xl w-full max-w-md transform transition-all duration-300">
+                <!-- Login Form -->
+                <div id="login-form" class="p-8">
+                    <div class="text-center mb-8">
+                        <div class="w-16 h-16 gradient-bg rounded-2xl flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-pen-nib text-white text-xl"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-900">Welcome Back</h2>
+                        <p class="text-gray-600 mt-2">Sign in to continue creating amazing scripts</p>
+                    </div>
+                    
+                    <form class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                            <input type="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-electric-blue focus:border-electric-blue transition-colors" placeholder="Enter your email">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                            <input type="password" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-electric-blue focus:border-electric-blue transition-colors" placeholder="Enter your password">
+                        </div>
+                        <button type="submit" onclick="authenticateUser(event)" class="w-full bg-gradient-to-r from-electric-blue to-neon-pink text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+                            <i class="fas fa-sign-in-alt mr-2"></i>
+                            Sign In
+                        </button>
+                    </form>
+                    
+                    <div class="mt-6 text-center">
+                        <span class="text-gray-600">Don't have an account? </span>
+                        <button onclick="switchToSignup()" class="text-electric-blue hover:text-neon-pink transition-colors font-medium">Sign up</button>
+                    </div>
+                </div>
+                
+                <!-- Signup Form -->
+                <div id="signup-form" class="hidden p-8">
+                    <div class="text-center mb-8">
+                        <div class="w-16 h-16 gradient-bg rounded-2xl flex items-center justify-center mx-auto mb-4">
+                            <i class="fas fa-user-plus text-white text-xl"></i>
+                        </div>
+                        <h2 class="text-2xl font-bold text-gray-900">Join ReelWrite AI</h2>
+                        <p class="text-gray-600 mt-2">Create your account and start generating viral scripts</p>
+                    </div>
+                    
+                    <form class="space-y-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                            <input type="text" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-electric-blue focus:border-electric-blue transition-colors" placeholder="Enter your full name">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                            <input type="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-electric-blue focus:border-electric-blue transition-colors" placeholder="Enter your email">
+                        </div>
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                            <input type="password" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-electric-blue focus:border-electric-blue transition-colors" placeholder="Create a password">
+                        </div>
+                        <button type="submit" onclick="createAccount(event)" class="w-full bg-gradient-to-r from-neon-pink to-lime-green text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+                            <i class="fas fa-user-plus mr-2"></i>
+                            Create Account
+                        </button>
+                    </form>
+                    
+                    <div class="mt-6 text-center">
+                        <span class="text-gray-600">Already have an account? </span>
+                        <button onclick="switchToLogin()" class="text-electric-blue hover:text-neon-pink transition-colors font-medium">Sign in</button>
+                    </div>
+                </div>
+                
+                <button onclick="closeAuth()" class="absolute top-4 right-4 text-gray-400 hover:text-gray-600 transition-colors">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Dashboard (Hidden by default) -->
+        <div id="dashboard" class="hidden min-h-screen bg-gray-50">
+            <!-- Dashboard Header -->
+            <header class="bg-white shadow-sm border-b border-gray-200">
+                <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+                    <div class="flex justify-between items-center h-16">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-8 h-8 gradient-bg rounded-lg flex items-center justify-center">
+                                <i class="fas fa-pen-nib text-white text-sm"></i>
+                            </div>
+                            <h1 class="text-xl font-bold text-gray-900">Dashboard</h1>
+                        </div>
+                        
+                        <div class="flex items-center space-x-4">
+                            <button onclick="showScriptGenerator()" class="bg-gradient-to-r from-electric-blue to-neon-pink text-white px-4 py-2 rounded-lg hover:shadow-lg transition-all duration-300">
+                                <i class="fas fa-plus mr-2"></i>
+                                New Script
+                            </button>
+                            <button onclick="logout()" class="text-gray-600 hover:text-gray-900 transition-colors">
+                                <i class="fas fa-sign-out-alt mr-2"></i>
+                                Logout
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </header>
+
+            <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
+                <!-- Dashboard Stats -->
+                <div class="grid md:grid-cols-4 gap-6 mb-8">
+                    <div class="bg-white rounded-xl p-6 shadow-sm hover-lift">
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 bg-electric-blue/10 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-file-alt text-electric-blue text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <div class="text-2xl font-bold text-gray-900" data-bind="user.scriptsCount">42</div>
+                                <div class="text-sm text-gray-600">Total Scripts</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl p-6 shadow-sm hover-lift">
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 bg-neon-pink/10 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-calendar text-neon-pink text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <div class="text-2xl font-bold text-gray-900">12</div>
+                                <div class="text-sm text-gray-600">This Week</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl p-6 shadow-sm hover-lift">
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 bg-lime-green/10 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-heart text-lime-green text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <div class="text-2xl font-bold text-gray-900">8</div>
+                                <div class="text-sm text-gray-600">Favorites</div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="bg-white rounded-xl p-6 shadow-sm hover-lift">
+                        <div class="flex items-center">
+                            <div class="w-12 h-12 bg-purple-500/10 rounded-lg flex items-center justify-center">
+                                <i class="fas fa-chart-line text-purple-500 text-xl"></i>
+                            </div>
+                            <div class="ml-4">
+                                <div class="text-2xl font-bold text-gray-900">94%</div>
+                                <div class="text-sm text-gray-600">Success Rate</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Script Generator Tab -->
+                <div id="script-generator-tab" class="bg-white rounded-xl shadow-sm p-8">
+                    <div class="flex items-center justify-between mb-8">
+                        <h2 class="text-2xl font-bold text-gray-900">AI Script Generator</h2>
+                        <div class="flex items-center space-x-2 text-sm text-gray-600">
+                            <div class="w-2 h-2 bg-lime-green rounded-full animate-pulse"></div>
+                            <span>AI Ready</span>
+                        </div>
+                    </div>
+                    
+                    <form id="script-form" class="space-y-6">
+                        <div class="grid md:grid-cols-2 gap-6">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Content Niche</label>
+                                <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-electric-blue focus:border-electric-blue transition-colors">
+                                    <option>Fitness & Health</option>
+                                    <option>Technology</option>
+                                    <option>Food & Cooking</option>
+                                    <option>Travel</option>
+                                    <option>Fashion & Beauty</option>
+                                    <option>Business & Finance</option>
+                                    <option>Entertainment</option>
+                                    <option>Education</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Content Type</label>
+                                <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-electric-blue focus:border-electric-blue transition-colors">
+                                    <option>Instagram Reel</option>
+                                    <option>TikTok Video</option>
+                                    <option>YouTube Short</option>
+                                    <option>Facebook Post</option>
+                                    <option>LinkedIn Post</option>
+                                    <option>Twitter Thread</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Tone & Style</label>
+                                <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-electric-blue focus:border-electric-blue transition-colors">
+                                    <option>Casual & Friendly</option>
+                                    <option>Professional</option>
+                                    <option>Humorous</option>
+                                    <option>Inspirational</option>
+                                    <option>Educational</option>
+                                    <option>Dramatic</option>
+                                </select>
+                            </div>
+                            
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700 mb-2">Script Length</label>
+                                <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-electric-blue focus:border-electric-blue transition-colors">
+                                    <option>Short (15-30 seconds)</option>
+                                    <option>Medium (30-60 seconds)</option>
+                                    <option>Long (60+ seconds)</option>
+                                </select>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">Additional Notes (Optional)</label>
+                            <textarea class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-electric-blue focus:border-electric-blue transition-colors" rows="3" placeholder="Any specific requirements or topics you want to include..."></textarea>
+                        </div>
+                        
+                        <button type="submit" onclick="generateScript(event)" class="bg-gradient-to-r from-electric-blue to-neon-pink text-white px-8 py-4 rounded-lg font-semibold text-lg hover:shadow-xl transition-all duration-300 transform hover:scale-105">
+                            <i class="fas fa-magic mr-2"></i>
+                            Generate Script with AI
+                        </button>
+                    </form>
+                    
+                    <!-- Generated Script Display -->
+                    <div id="generated-script" class="hidden mt-8 p-6 bg-gradient-to-br from-blue-50 to-purple-50 rounded-xl border-2 border-electric-blue/20">
+                        <div class="flex items-center justify-between mb-6">
+                            <h3 class="text-lg font-semibold text-gray-900">Generated Script</h3>
+                            <div class="flex space-x-2">
+                                <button onclick="regenerateScript()" class="bg-neon-pink text-white px-4 py-2 rounded-lg hover:shadow-lg transition-all duration-300 text-sm">
+                                    <i class="fas fa-redo mr-1"></i>
+                                    Regenerate
+                                </button>
+                                <button onclick="copyScript()" class="bg-lime-green text-white px-4 py-2 rounded-lg hover:shadow-lg transition-all duration-300 text-sm">
+                                    <i class="fas fa-copy mr-1"></i>
+                                    Copy
+                                </button>
+                                <button onclick="saveScript()" class="bg-electric-blue text-white px-4 py-2 rounded-lg hover:shadow-lg transition-all duration-300 text-sm">
+                                    <i class="fas fa-save mr-1"></i>
+                                    Save
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-4">
+                            <div class="bg-white rounded-lg p-4">
+                                <div class="text-sm font-medium text-electric-blue mb-2">🎣 HOOK</div>
+                                <div id="script-hook" class="text-gray-800">Did you know this 30-second morning routine can boost your energy by 300%?</div>
+                            </div>
+                            
+                            <div class="bg-white rounded-lg p-4">
+                                <div class="text-sm font-medium text-neon-pink mb-2">📝 BODY</div>
+                                <div id="script-body" class="text-gray-800">Here's the science: when you combine these 3 simple movements with proper breathing, you activate your parasympathetic nervous system. This triggers a natural energy boost that lasts hours without caffeine. I've been doing this for 6 months and my energy levels are through the roof!</div>
+                            </div>
+                            
+                            <div class="bg-white rounded-lg p-4">
+                                <div class="text-sm font-medium text-lime-green mb-2">🚀 CALL TO ACTION</div>
+                                <div id="script-cta" class="text-gray-800">Try this routine tomorrow morning and comment below how you feel! Follow @yourhandle for more energy-boosting tips that actually work.</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Saved Scripts Tab -->
+                <div id="saved-scripts-tab" class="hidden mt-8">
+                    <div class="bg-white rounded-xl shadow-sm p-8">
+                        <div class="flex items-center justify-between mb-8">
+                            <h2 class="text-2xl font-bold text-gray-900">Saved Scripts</h2>
+                            <div class="flex space-x-2">
+                                <button class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors text-sm">
+                                    <i class="fas fa-filter mr-1"></i>
+                                    Filter
+                                </button>
+                                <button class="bg-gray-100 text-gray-700 px-4 py-2 rounded-lg hover:bg-gray-200 transition-colors text-sm">
+                                    <i class="fas fa-search mr-1"></i>
+                                    Search
+                                </button>
+                            </div>
+                        </div>
+                        
+                        <!-- @MAP: savedScripts.map(script => ( -->
+                        <div class="space-y-4">
+                            <div class="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
+                                <div class="flex items-start justify-between mb-4">
+                                    <div>
+                                        <div class="flex items-center space-x-2 mb-2">
+                                            <span class="bg-electric-blue/10 text-electric-blue text-xs px-2 py-1 rounded-full">Fitness</span>
+                                            <span class="bg-neon-pink/10 text-neon-pink text-xs px-2 py-1 rounded-full">Instagram Reel</span>
+                                            <span class="text-xs text-gray-500">2 days ago</span>
+                                        </div>
+                                        <h3 class="font-medium text-gray-900">Morning Energy Routine Script</h3>
+                                    </div>
+                                    <div class="flex space-x-2">
+                                        <button class="text-gray-400 hover:text-electric-blue transition-colors" title="Copy">
+                                            <i class="fas fa-copy"></i>
+                                        </button>
+                                        <button class="text-gray-400 hover:text-neon-pink transition-colors" title="Regenerate">
+                                            <i class="fas fa-redo"></i>
+                                        </button>
+                                        <button class="text-gray-400 hover:text-red-500 transition-colors" title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="text-sm text-gray-600 line-clamp-2">
+                                    Hook: "Did you know this 30-second morning routine can boost your energy by 300%?"
+                                </div>
+                            </div>
+                            
+                            <div class="border border-gray-200 rounded-lg p-6 hover:shadow-md transition-shadow">
+                                <div class="flex items-start justify-between mb-4">
+                                    <div>
+                                        <div class="flex items-center space-x-2 mb-2">
+                                            <span class="bg-lime-green/10 text-lime-green text-xs px-2 py-1 rounded-full">Technology</span>
+                                            <span class="bg-purple-500/10 text-purple-500 text-xs px-2 py-1 rounded-full">TikTok</span>
+                                            <span class="text-xs text-gray-500">1 week ago</span>
+                                        </div>
+                                        <h3 class="font-medium text-gray-900">iPhone Photography Tips</h3>
+                                    </div>
+                                    <div class="flex space-x-2">
+                                        <button class="text-gray-400 hover:text-electric-blue transition-colors" title="Copy">
+                                            <i class="fas fa-copy"></i>
+                                        </button>
+                                        <button class="text-gray-400 hover:text-neon-pink transition-colors" title="Regenerate">
+                                            <i class="fas fa-redo"></i>
+                                        </button>
+                                        <button class="text-gray-400 hover:text-red-500 transition-colors" title="Delete">
+                                            <i class="fas fa-trash"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                                
+                                <div class="text-sm text-gray-600 line-clamp-2">
+                                    Hook: "This iPhone camera trick will make your photos look professional instantly..."
+                                </div>
+                            </div>
+                        </div>
+                        <!-- @END_MAP )) -->
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Application State Management
+        let isAuthenticated = false;
+        let currentUser = null;
+        
+        // Navigation functions
+        function showLogin() {
+            document.getElementById('auth-modal').classList.remove('hidden');
+            document.getElementById('login-form').classList.remove('hidden');
+            document.getElementById('signup-form').classList.add('hidden');
+        }
+        
+        function showSignup() {
+            document.getElementById('auth-modal').classList.remove('hidden');
+            document.getElementById('signup-form').classList.remove('hidden');
+            document.getElementById('login-form').classList.add('hidden');
+        }
+        
+        function closeAuth() {
+            document.getElementById('auth-modal').classList.add('hidden');
+        }
+        
+        function switchToSignup() {
+            document.getElementById('login-form').classList.add('hidden');
+            document.getElementById('signup-form').classList.remove('hidden');
+        }
+        
+        function switchToLogin() {
+            document.getElementById('signup-form').classList.add('hidden');
+            document.getElementById('login-form').classList.remove('hidden');
+        }
+        
+        // Authentication functions
+        function authenticateUser(event) {
+            event.preventDefault();
+            // TODO: Implement actual JWT authentication
+            isAuthenticated = true;
+            currentUser = { name: 'John Creator', email: 'john@example.com' };
+            showDashboard();
+            closeAuth();
+        }
+        
+        function createAccount(event) {
+            event.preventDefault();
+            // TODO: Implement user registration and JWT token creation
+            isAuthenticated = true;
+            currentUser = { name: 'New Creator', email: 'new@example.com' };
+            showDashboard();
+            closeAuth();
+        }
+        
+        function logout() {
+            isAuthenticated = false;
+            currentUser = null;
+            showLandingPage();
+        }
+        
+        // Page navigation
+        function showDashboard() {
+            document.getElementById('landing-page').classList.add('hidden');
+            document.getElementById('dashboard').classList.remove('hidden');
+            document.getElementById('script-generator-tab').classList.remove('hidden');
+            document.getElementById('saved-scripts-tab').classList.add('hidden');
+        }
+        
+        function showLandingPage() {
+            document.getElementById('dashboard').classList.add('hidden');
+            document.getElementById('landing-page').classList.remove('hidden');
+        }
+        
+        function showScriptGenerator() {
+            if (!isAuthenticated) {
+                showLogin();
+                return;
+            }
+            showDashboard();
+        }
+        
+        function showSavedScripts() {
+            document.getElementById('script-generator-tab').classList.add('hidden');
+            document.getElementById('saved-scripts-tab').classList.remove('hidden');
+        }
+        
+        // Script generation functions
+        function generateScript(event) {
+            event.preventDefault();
+            
+            // Show loading state
+            const button = event.target.querySelector('button[type="submit"]') || event.target;
+            const originalText = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Generating...';
+            button.disabled = true;
+            
+            // Simulate AI generation delay
+            setTimeout(() => {
+                // TODO: Implement actual Hugging Face API integration
+                document.getElementById('generated-script').classList.remove('hidden');
+                
+                // Sample generated content (would come from AI)
+                document.getElementById('script-hook').textContent = generateRandomHook();
+                document.getElementById('script-body').textContent = generateRandomBody();
+                document.getElementById('script-cta').textContent = generateRandomCTA();
+                
+                // Reset button
+                button.innerHTML = originalText;
+                button.disabled = false;
+                
+                // Scroll to generated script
+                document.getElementById('generated-script').scrollIntoView({ behavior: 'smooth' });
+            }, 2000);
+        }
+        
+        function regenerateScript() {
+            // TODO: Call Hugging Face API with variation parameters
+            document.getElementById('script-hook').textContent = generateRandomHook();
+            document.getElementById('script-body').textContent = generateRandomBody();
+            document.getElementById('script-cta').textContent = generateRandomCTA();
+        }
+        
+        function copyScript() {
+            const hook = document.getElementById('script-hook').textContent;
+            const body = document.getElementById('script-body').textContent;
+            const cta = document.getElementById('script-cta').textContent;
+            
+            const fullScript = `HOOK: ${hook}\n\nBODY: ${body}\n\nCTA: ${cta}`;
+            
+            navigator.clipboard.writeText(fullScript).then(() => {
+                // Show success feedback
+                const button = event.target;
+                const originalText = button.innerHTML;
+                button.innerHTML = '<i class="fas fa-check mr-1"></i>Copied!';
+                setTimeout(() => {
+                    button.innerHTML = originalText;
+                }, 2000);
+            });
+        }
+        
+        function saveScript() {
+            // TODO: Implement script saving to user's account via API
+            const button = event.target;
+            const originalText = button.innerHTML;
+            button.innerHTML = '<i class="fas fa-check mr-1"></i>Saved!';
+            setTimeout(() => {
+                button.innerHTML = originalText;
+            }, 2000);
+        }
+        
+        // Demo and external links
+        function openDemo() {
+            window.open('https://youtube.com/watch?v=dQw4w9WgXcQ', '_blank');
+        }
+        
+        // Utility functions for random content generation (placeholder for AI)
+        function generateRandomHook() {
+            const hooks = [
+                "Did you know this 30-second morning routine can boost your energy by 300%?",
+                "This one simple trick will change how you think about productivity forever",
+                "I tried this for 7 days and the results shocked everyone around me",
+                "The secret that fitness influencers don't want you to know",
+                "This changes everything you thought you knew about success"
+            ];
+            return hooks[Math.floor(Math.random() * hooks.length)];
+        }
+        
+        function generateRandomBody() {
+            const bodies = [
+                "Here's the science: when you combine these 3 simple movements with proper breathing, you activate your parasympathetic nervous system. This triggers a natural energy boost that lasts hours without caffeine. I've been doing this for 6 months and my energy levels are through the roof!",
+                "Most people focus on the wrong metrics when measuring progress. Instead of tracking vanity numbers, successful people track these 3 key indicators that actually predict long-term success. Once I shifted my focus, everything changed.",
+                "The research is clear: our brains are wired to resist change, but there's a psychological hack that bypasses this resistance completely. When you understand how your subconscious works, achieving your goals becomes almost automatic."
+            ];
+            return bodies[Math.floor(Math.random() * bodies.length)];
+        }
+        
+        function generateRandomCTA() {
+            const ctas = [
+                "Try this routine tomorrow morning and comment below how you feel! Follow @yourhandle for more energy-boosting tips that actually work.",
+                "Save this post and share it with someone who needs to see it. What's your biggest productivity challenge? Let me know in the comments!",
+                "Double-tap if this resonated with you and follow for daily mindset tips that will transform your life!"
+            ];
+            return ctas[Math.floor(Math.random() * ctas.length)];
+        }
+        
+        // Smooth scrolling for navigation links
+        (function() {
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+        })();
+        
+        // Initialize page
+        (function() {
+            // Check if user should be redirected to dashboard
+            if (isAuthenticated) {
+                showDashboard();
+            }
+        })();
+    </script>
+</body>
+</html>

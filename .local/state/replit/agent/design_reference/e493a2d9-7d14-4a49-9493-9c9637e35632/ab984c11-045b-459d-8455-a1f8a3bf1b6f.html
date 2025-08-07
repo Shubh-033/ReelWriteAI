@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReelWrite AI - AI-Powered Script Generator</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        'electric-blue': '#0066FF',
+                        'neon-pink': '#FF006E',
+                        'lime-green': '#32D74B',
+                    },
+                    fontFamily: {
+                        'inter': ['Inter', 'sans-serif'],
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.5s ease-in',
+                        'slide-up': 'slideUp 0.6s ease-out',
+                        'bounce-gentle': 'bounceGentle 2s infinite',
+                    }
+                }
+            }
+        }
+    </script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        @keyframes slideUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        @keyframes bounceGentle {
+            0%, 20%, 50%, 80%, 100% { transform: translateY(0); }
+            40% { transform: translateY(-10px); }
+            60% { transform: translateY(-5px); }
+        }
+        .gradient-text {
+            background: linear-gradient(135deg, #0066FF, #FF006E, #32D74B);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+        .glassmorphism {
+            backdrop-filter: blur(10px);
+            background: rgba(255, 255, 255, 0.25);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+        }
+    </style>
+</head>
+<body class="font-inter bg-white text-gray-900">
+    
+    <!-- Navigation -->
+    <!-- @COMPONENT: Navbar [responsive navigation with auth state] -->
+    <nav class="fixed top-0 w-full z-50 glassmorphism" data-component="navbar">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="flex justify-between items-center h-16">
+                <!-- Logo -->
+                <div class="flex items-center">
+                    <div class="flex-shrink-0">
+                        <h1 class="text-2xl font-bold gradient-text">ReelWrite AI</h1>
+                    </div>
+                </div>
+                
+                <!-- Desktop Navigation -->
+                <div class="hidden md:block">
+                    <div class="ml-10 flex items-baseline space-x-8">
+                        <a href="#features" class="text-gray-600 hover:text-electric-blue transition-colors duration-300 font-medium" data-event="click:scrollToFeatures">Features</a>
+                        <a href="#community" class="text-gray-600 hover:text-neon-pink transition-colors duration-300 font-medium" data-event="click:scrollToCommunity">Community</a>
+                        <a href="#about" class="text-gray-600 hover:text-lime-green transition-colors duration-300 font-medium" data-event="click:scrollToAbout">About</a>
+                        <button class="text-gray-600 hover:text-gray-900 transition-colors duration-300 font-medium" data-event="click:openLogin">Log In</button>
+                        <button class="bg-gradient-to-r from-electric-blue to-neon-pink text-white px-6 py-2 rounded-lg hover:shadow-lg transition-all duration-300 transform hover:scale-105" data-event="click:openSignup">Get Started</button>
+                    </div>
+                </div>
+                
+                <!-- Mobile menu button -->
+                <div class="md:hidden">
+                    <button class="text-gray-600 hover:text-gray-900 focus:outline-none">
+                        <i class="fas fa-bars text-xl"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </nav>
+    <!-- @END_COMPONENT: Navbar -->
+
+    <!-- Hero Section -->
+    <!-- @COMPONENT: HeroSection [main landing area with CTA] -->
+    <section class="pt-20 pb-16 bg-gradient-to-br from-blue-50 to-pink-50" data-component="hero">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center">
+                <h1 class="text-4xl md:text-6xl font-bold text-gray-900 mb-6 animate-fade-in">
+                    Create <span class="gradient-text">Viral Scripts</span><br>
+                    with AI Power
+                </h1>
+                <p class="text-xl text-gray-600 mb-8 max-w-3xl mx-auto animate-slide-up">
+                    Generate unique, engaging scripts for your content with our AI-powered tool. Perfect hooks, compelling body content, and irresistible CTAs - all in seconds.
+                </p>
+                
+                <!-- CTA Buttons -->
+                <div class="flex flex-col sm:flex-row gap-4 justify-center mb-12 animate-slide-up">
+                    <button class="bg-gradient-to-r from-electric-blue to-neon-pink text-white px-8 py-4 rounded-lg text-lg font-semibold hover:shadow-lg transition-all duration-300 transform hover:scale-105" data-event="click:startCreating" data-implementation="Should check auth state and redirect to generator or signup">
+                        <i class="fas fa-magic mr-2"></i>
+                        Start Creating Scripts
+                    </button>
+                    <button class="border-2 border-electric-blue text-electric-blue px-8 py-4 rounded-lg text-lg font-semibold hover:bg-electric-blue hover:text-white transition-all duration-300" data-event="click:watchDemo" data-implementation="Open YouTube demo link">
+                        <i class="fas fa-play mr-2"></i>
+                        Watch Demo
+                    </button>
+                </div>
+
+                <!-- Hero Stats -->
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8 max-w-4xl mx-auto">
+                    <div class="bg-white rounded-xl p-6 shadow-lg transform hover:scale-105 transition-all duration-300">
+                        <div class="text-3xl font-bold text-electric-blue mb-2" data-bind="stats.scriptsGenerated">50K+</div>
+                        <div class="text-gray-600">Scripts Generated</div>
+                    </div>
+                    <div class="bg-white rounded-xl p-6 shadow-lg transform hover:scale-105 transition-all duration-300">
+                        <div class="text-3xl font-bold text-neon-pink mb-2" data-bind="stats.activeUsers">12K+</div>
+                        <div class="text-gray-600">Active Creators</div>
+                    </div>
+                    <div class="bg-white rounded-xl p-6 shadow-lg transform hover:scale-105 transition-all duration-300">
+                        <div class="text-3xl font-bold text-lime-green mb-2" data-bind="stats.averageEngagement">85%</div>
+                        <div class="text-gray-600">Avg. Engagement Boost</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: HeroSection -->
+
+    <!-- Features Section -->
+    <!-- @COMPONENT: FeaturesSection [showcase of key features] -->
+    <section id="features" class="py-20 bg-white" data-component="features">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Powerful Features</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Everything you need to create compelling content that converts</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <!-- Feature 1: AI Script Generation -->
+                <div class="bg-gradient-to-br from-blue-50 to-blue-100 rounded-xl p-8 hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+                    <div class="w-16 h-16 bg-electric-blue rounded-lg flex items-center justify-center mb-6">
+                        <i class="fas fa-robot text-2xl text-white"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">AI-Powered Generation</h3>
+                    <p class="text-gray-600 mb-6">Advanced NLP models create unique scripts tailored to your niche, tone, and style preferences.</p>
+                    <ul class="space-y-2 text-gray-600">
+                        <li><i class="fas fa-check text-electric-blue mr-2"></i>Multiple content types</li>
+                        <li><i class="fas fa-check text-electric-blue mr-2"></i>Customizable tone & style</li>
+                        <li><i class="fas fa-check text-electric-blue mr-2"></i>Unlimited generations</li>
+                    </ul>
+                </div>
+
+                <!-- Feature 2: Smart Templates -->
+                <div class="bg-gradient-to-br from-pink-50 to-pink-100 rounded-xl p-8 hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+                    <div class="w-16 h-16 bg-neon-pink rounded-lg flex items-center justify-center mb-6">
+                        <i class="fas fa-file-alt text-2xl text-white"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Smart Templates</h3>
+                    <p class="text-gray-600 mb-6">Pre-built templates for different platforms and content types to get you started instantly.</p>
+                    <ul class="space-y-2 text-gray-600">
+                        <li><i class="fas fa-check text-neon-pink mr-2"></i>Social media optimized</li>
+                        <li><i class="fas fa-check text-neon-pink mr-2"></i>Video script formats</li>
+                        <li><i class="fas fa-check text-neon-pink mr-2"></i>Hook-Body-CTA structure</li>
+                    </ul>
+                </div>
+
+                <!-- Feature 3: Performance Analytics -->
+                <div class="bg-gradient-to-br from-green-50 to-green-100 rounded-xl p-8 hover:shadow-lg transition-all duration-300 transform hover:scale-105">
+                    <div class="w-16 h-16 bg-lime-green rounded-lg flex items-center justify-center mb-6">
+                        <i class="fas fa-chart-line text-2xl text-white"></i>
+                    </div>
+                    <h3 class="text-2xl font-bold text-gray-900 mb-4">Performance Analytics</h3>
+                    <p class="text-gray-600 mb-6">Track your script performance and get insights to improve your content strategy.</p>
+                    <ul class="space-y-2 text-gray-600">
+                        <li><i class="fas fa-check text-lime-green mr-2"></i>Engagement metrics</li>
+                        <li><i class="fas fa-check text-lime-green mr-2"></i>A/B testing tools</li>
+                        <li><i class="fas fa-check text-lime-green mr-2"></i>Trend analysis</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: FeaturesSection -->
+
+    <!-- Script Generator Dashboard Preview -->
+    <!-- @COMPONENT: DashboardPreview [protected route preview] -->
+    <section class="py-20 bg-gray-50" data-component="dashboard-preview">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Your Script Generation Dashboard</h2>
+                <p class="text-xl text-gray-600">A powerful workspace designed for content creators</p>
+            </div>
+
+            <!-- Dashboard Mockup -->
+            <div class="bg-white rounded-2xl shadow-2xl overflow-hidden">
+                <!-- Dashboard Header -->
+                <div class="bg-gradient-to-r from-electric-blue to-neon-pink p-6">
+                    <div class="flex items-center justify-between">
+                        <div>
+                            <h3 class="text-2xl font-bold text-white">Welcome back, <span data-bind="user.name" data-mock="true">Sarah</span>!</h3>
+                            <p class="text-blue-100">Ready to create amazing scripts?</p>
+                        </div>
+                        <div class="text-white text-right">
+                            <div class="text-sm opacity-90">Scripts Generated</div>
+                            <div class="text-3xl font-bold" data-bind="user.scriptCount" data-mock="true">127</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Dashboard Content -->
+                <div class="p-8">
+                    <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                        <!-- Script Generator Form -->
+                        <div class="space-y-6">
+                            <h4 class="text-2xl font-bold text-gray-900">Generate New Script</h4>
+                            
+                            <!-- Form Fields -->
+                            <div class="space-y-4">
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Content Niche</label>
+                                    <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-electric-blue focus:border-transparent" data-bind="form.niche">
+                                        <option>Fitness & Health</option>
+                                        <option>Technology</option>
+                                        <option>Lifestyle</option>
+                                        <option>Business</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Content Type</label>
+                                    <div class="grid grid-cols-2 gap-3">
+                                        <button class="px-4 py-3 border-2 border-electric-blue bg-electric-blue text-white rounded-lg font-medium transition-all duration-300" data-bind="form.contentType" data-event="click:selectContentType">
+                                            Instagram Reel
+                                        </button>
+                                        <button class="px-4 py-3 border-2 border-gray-300 text-gray-700 rounded-lg font-medium hover:border-electric-blue transition-all duration-300" data-event="click:selectContentType">
+                                            TikTok Video
+                                        </button>
+                                        <button class="px-4 py-3 border-2 border-gray-300 text-gray-700 rounded-lg font-medium hover:border-electric-blue transition-all duration-300" data-event="click:selectContentType">
+                                            YouTube Short
+                                        </button>
+                                        <button class="px-4 py-3 border-2 border-gray-300 text-gray-700 rounded-lg font-medium hover:border-electric-blue transition-all duration-300" data-event="click:selectContentType">
+                                            LinkedIn Post
+                                        </button>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Tone & Style</label>
+                                    <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-electric-blue focus:border-transparent" data-bind="form.tone">
+                                        <option>Professional</option>
+                                        <option>Casual & Fun</option>
+                                        <option>Inspirational</option>
+                                        <option>Educational</option>
+                                    </select>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Script Length</label>
+                                    <input type="range" class="w-full" min="30" max="180" value="60" data-bind="form.length">
+                                    <div class="flex justify-between text-sm text-gray-500 mt-1">
+                                        <span>30s</span>
+                                        <span data-bind="form.lengthDisplay" data-mock="true">60s</span>
+                                        <span>3min</span>
+                                    </div>
+                                </div>
+
+                                <div>
+                                    <label class="block text-sm font-medium text-gray-700 mb-2">Additional Notes (Optional)</label>
+                                    <textarea class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-electric-blue focus:border-transparent" rows="3" placeholder="Any specific requirements or topics to include..." data-bind="form.notes"></textarea>
+                                </div>
+                            </div>
+
+                            <!-- Generate Button -->
+                            <button class="w-full bg-gradient-to-r from-electric-blue to-neon-pink text-white py-4 rounded-lg text-lg font-semibold hover:shadow-lg transition-all duration-300 transform hover:scale-105" data-event="click:generateScript" data-implementation="Should call Hugging Face API with form parameters">
+                                <i class="fas fa-magic mr-2"></i>
+                                Generate Script
+                            </button>
+                        </div>
+
+                        <!-- Generated Script Output -->
+                        <div class="space-y-6">
+                            <div class="flex items-center justify-between">
+                                <h4 class="text-2xl font-bold text-gray-900">Generated Script</h4>
+                                <div class="flex space-x-2">
+                                    <button class="px-4 py-2 text-electric-blue border border-electric-blue rounded-lg hover:bg-electric-blue hover:text-white transition-all duration-300" data-event="click:regenerateScript" data-implementation="Should regenerate with variation">
+                                        <i class="fas fa-sync-alt mr-2"></i>
+                                        Regenerate
+                                    </button>
+                                    <button class="px-4 py-2 text-neon-pink border border-neon-pink rounded-lg hover:bg-neon-pink hover:text-white transition-all duration-300" data-event="click:saveScript" data-implementation="Should save to user's collection">
+                                        <i class="fas fa-save mr-2"></i>
+                                        Save
+                                    </button>
+                                </div>
+                            </div>
+
+                            <!-- Script Sections -->
+                            <div class="space-y-4">
+                                <!-- Hook Section -->
+                                <div class="bg-gradient-to-r from-electric-blue/10 to-electric-blue/5 rounded-lg p-4">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <h5 class="font-bold text-electric-blue">🎣 HOOK</h5>
+                                        <button class="text-electric-blue hover:text-electric-blue/70" data-event="click:copyToClipboard" data-implementation="Copy hook content to clipboard">
+                                            <i class="fas fa-copy"></i>
+                                        </button>
+                                    </div>
+                                    <p class="text-gray-700" data-bind="generatedScript.hook" data-mock="true">
+                                        "Did you know that 90% of people are doing their morning workouts completely wrong? In the next 60 seconds, I'll show you the ONE mistake that's sabotaging your results..."
+                                    </p>
+                                </div>
+
+                                <!-- Body Section -->
+                                <div class="bg-gradient-to-r from-neon-pink/10 to-neon-pink/5 rounded-lg p-4">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <h5 class="font-bold text-neon-pink">📝 BODY</h5>
+                                        <button class="text-neon-pink hover:text-neon-pink/70" data-event="click:copyToClipboard">
+                                            <i class="fas fa-copy"></i>
+                                        </button>
+                                    </div>
+                                    <p class="text-gray-700" data-bind="generatedScript.body" data-mock="true">
+                                        "Here's the truth: most people rush through their warm-up or skip it entirely. But research shows that a proper 5-minute dynamic warm-up increases performance by 15% and reduces injury risk by 40%. Start with arm circles, then leg swings, followed by light cardio. Your body will thank you, and your results will speak for themselves."
+                                    </p>
+                                </div>
+
+                                <!-- CTA Section -->
+                                <div class="bg-gradient-to-r from-lime-green/10 to-lime-green/5 rounded-lg p-4">
+                                    <div class="flex items-center justify-between mb-3">
+                                        <h5 class="font-bold text-lime-green">🎯 CALL TO ACTION</h5>
+                                        <button class="text-lime-green hover:text-lime-green/70" data-event="click:copyToClipboard">
+                                            <i class="fas fa-copy"></i>
+                                        </button>
+                                    </div>
+                                    <p class="text-gray-700" data-bind="generatedScript.cta" data-mock="true">
+                                        "If this helped you, double-tap and follow for more fitness facts that actually work! What's your biggest workout mistake? Drop it in the comments below 👇"
+                                    </p>
+                                </div>
+                            </div>
+
+                            <!-- Copy All Button -->
+                            <button class="w-full bg-gray-900 text-white py-3 rounded-lg font-semibold hover:bg-gray-800 transition-all duration-300" data-event="click:copyFullScript" data-implementation="Copy entire script to clipboard">
+                                <i class="fas fa-clipboard mr-2"></i>
+                                Copy Full Script
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: DashboardPreview -->
+
+    <!-- User Analytics Section -->
+    <!-- @COMPONENT: UserAnalytics [personal stats and insights] -->
+    <section class="py-20 bg-white" data-component="user-analytics">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Track Your Progress</h2>
+                <p class="text-xl text-gray-600">Get insights into your content creation journey</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-8">
+                <!-- Stats Overview -->
+                <div class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl p-8">
+                    <h3 class="text-2xl font-bold text-gray-900 mb-6">Your Stats</h3>
+                    
+                    <div class="grid grid-cols-2 gap-6">
+                        <div class="bg-white rounded-lg p-4 text-center">
+                            <div class="text-3xl font-bold text-electric-blue mb-1" data-bind="userStats.scriptsThisMonth" data-mock="true">24</div>
+                            <div class="text-sm text-gray-600">Scripts This Month</div>
+                        </div>
+                        <div class="bg-white rounded-lg p-4 text-center">
+                            <div class="text-3xl font-bold text-neon-pink mb-1" data-bind="userStats.averageLength" data-mock="true">90s</div>
+                            <div class="text-sm text-gray-600">Avg Script Length</div>
+                        </div>
+                        <div class="bg-white rounded-lg p-4 text-center">
+                            <div class="text-3xl font-bold text-lime-green mb-1" data-bind="userStats.favoriteNiche" data-mock="true">Fitness</div>
+                            <div class="text-sm text-gray-600">Top Niche</div>
+                        </div>
+                        <div class="bg-white rounded-lg p-4 text-center">
+                            <div class="text-3xl font-bold text-purple-500 mb-1" data-bind="userStats.savedScripts" data-mock="true">18</div>
+                            <div class="text-sm text-gray-600">Saved Scripts</div>
+                        </div>
+                    </div>
+
+                    <!-- Progress Chart Placeholder -->
+                    <div class="mt-8">
+                        <h4 class="font-semibold text-gray-900 mb-4">Monthly Activity</h4>
+                        <div class="bg-white rounded-lg p-4" data-implementation="Implement chart.js or similar for activity visualization">
+                            <!-- @FUNCTIONALITY: This should show a line chart of script generation over time -->
+                            <div class="h-48 bg-gradient-to-r from-electric-blue/10 to-neon-pink/10 rounded flex items-center justify-center">
+                                <div class="text-center text-gray-500">
+                                    <i class="fas fa-chart-line text-4xl mb-2"></i>
+                                    <div>Activity Chart</div>
+                                    <div class="text-sm">Coming Soon</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Saved Scripts Preview -->
+                <div class="space-y-6">
+                    <h3 class="text-2xl font-bold text-gray-900">Recent Scripts</h3>
+                    
+                    <!-- @MAP: recentScripts.map(script => ( -->
+                    <div class="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300" data-mock="true">
+                        <div class="flex items-start justify-between mb-4">
+                            <div>
+                                <h4 class="font-semibold text-gray-900" data-bind="script.title">Morning Workout Tips</h4>
+                                <div class="flex items-center space-x-4 text-sm text-gray-500 mt-1">
+                                    <span data-bind="script.type">Instagram Reel</span>
+                                    <span data-bind="script.niche">Fitness</span>
+                                    <span data-bind="script.createdAt">2 hours ago</span>
+                                </div>
+                            </div>
+                            <div class="flex space-x-2">
+                                <button class="text-gray-400 hover:text-electric-blue transition-colors" data-event="click:editScript">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="text-gray-400 hover:text-neon-pink transition-colors" data-event="click:copyScript">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                                <button class="text-gray-400 hover:text-red-500 transition-colors" data-event="click:deleteScript">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 line-clamp-3" data-bind="script.preview">Did you know that 90% of people are doing their morning workouts completely wrong?...</p>
+                        
+                        <div class="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
+                            <div class="flex items-center space-x-4 text-sm">
+                                <span class="text-electric-blue">
+                                    <i class="fas fa-eye mr-1"></i>
+                                    <span data-bind="script.views" data-mock="true">234</span> views
+                                </span>
+                                <span class="text-lime-green">
+                                    <i class="fas fa-heart mr-1"></i>
+                                    <span data-bind="script.likes" data-mock="true">18</span> likes
+                                </span>
+                            </div>
+                            <button class="text-electric-blue hover:text-electric-blue/70 font-medium transition-colors" data-event="click:viewFullScript">
+                                View Full Script
+                            </button>
+                        </div>
+                    </div>
+
+                    <div class="bg-white border border-gray-200 rounded-xl p-6 hover:shadow-lg transition-all duration-300" data-mock="true">
+                        <div class="flex items-start justify-between mb-4">
+                            <div>
+                                <h4 class="font-semibold text-gray-900" data-bind="script.title">Tech Product Review</h4>
+                                <div class="flex items-center space-x-4 text-sm text-gray-500 mt-1">
+                                    <span data-bind="script.type">YouTube Short</span>
+                                    <span data-bind="script.niche">Technology</span>
+                                    <span data-bind="script.createdAt">1 day ago</span>
+                                </div>
+                            </div>
+                            <div class="flex space-x-2">
+                                <button class="text-gray-400 hover:text-electric-blue transition-colors" data-event="click:editScript">
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="text-gray-400 hover:text-neon-pink transition-colors" data-event="click:copyScript">
+                                    <i class="fas fa-copy"></i>
+                                </button>
+                                <button class="text-gray-400 hover:text-red-500 transition-colors" data-event="click:deleteScript">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                        <p class="text-gray-600 line-clamp-3" data-bind="script.preview">This new smartphone just changed everything! Here's why everyone's talking about it...</p>
+                        
+                        <div class="flex items-center justify-between mt-4 pt-4 border-t border-gray-100">
+                            <div class="flex items-center space-x-4 text-sm">
+                                <span class="text-electric-blue">
+                                    <i class="fas fa-eye mr-1"></i>
+                                    <span data-bind="script.views" data-mock="true">567</span> views
+                                </span>
+                                <span class="text-lime-green">
+                                    <i class="fas fa-heart mr-1"></i>
+                                    <span data-bind="script.likes" data-mock="true">42</span> likes
+                                </span>
+                            </div>
+                            <button class="text-electric-blue hover:text-electric-blue/70 font-medium transition-colors" data-event="click:viewFullScript">
+                                View Full Script
+                            </button>
+                        </div>
+                    </div>
+                    <!-- @END_MAP )) -->
+
+                    <!-- View All Button -->
+                    <button class="w-full bg-gradient-to-r from-electric-blue to-neon-pink text-white py-3 rounded-lg font-semibold hover:shadow-lg transition-all duration-300 transform hover:scale-105" data-event="click:viewAllScripts">
+                        <i class="fas fa-folder-open mr-2"></i>
+                        View All Saved Scripts
+                    </button>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: UserAnalytics -->
+
+    <!-- Community Showcase -->
+    <!-- @COMPONENT: CommunityShowcase [trending and popular scripts] -->
+    <section id="community" class="py-20 bg-gray-50" data-component="community">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">Community Showcase</h2>
+                <p class="text-xl text-gray-600">Discover trending scripts from our creator community</p>
+            </div>
+
+            <!-- Filter Tabs -->
+            <div class="flex flex-wrap justify-center gap-4 mb-12">
+                <button class="px-6 py-3 bg-electric-blue text-white rounded-lg font-semibold transition-all duration-300 transform hover:scale-105" data-event="click:filterCommunity">
+                    🔥 Trending
+                </button>
+                <button class="px-6 py-3 bg-white text-gray-700 border border-gray-300 rounded-lg font-semibold hover:border-electric-blue hover:text-electric-blue transition-all duration-300" data-event="click:filterCommunity">
+                    ⭐ Most Liked
+                </button>
+                <button class="px-6 py-3 bg-white text-gray-700 border border-gray-300 rounded-lg font-semibold hover:border-electric-blue hover:text-electric-blue transition-all duration-300" data-event="click:filterCommunity">
+                    🆕 Recent
+                </button>
+                <button class="px-6 py-3 bg-white text-gray-700 border border-gray-300 rounded-lg font-semibold hover:border-electric-blue hover:text-electric-blue transition-all duration-300" data-event="click:filterCommunity">
+                    🎯 Fitness
+                </button>
+                <button class="px-6 py-3 bg-white text-gray-700 border border-gray-300 rounded-lg font-semibold hover:border-electric-blue hover:text-electric-blue transition-all duration-300" data-event="click:filterCommunity">
+                    💻 Tech
+                </button>
+            </div>
+
+            <!-- Community Scripts Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+                <!-- @MAP: communityScripts.map(script => ( -->
+                <!-- Featured Script Card 1 -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105" data-mock="true">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center space-x-3">
+                                <!-- Community member avatar placeholder -->
+                                <div class="w-10 h-10 bg-gradient-to-r from-electric-blue to-neon-pink rounded-full flex items-center justify-center text-white font-semibold" data-bind="script.author.initials" data-mock="true">
+                                    MK
+                                </div>
+                                <div>
+                                    <div class="font-semibold text-gray-900" data-bind="script.author.name" data-mock="true">Maya K.</div>
+                                    <div class="text-sm text-gray-500" data-bind="script.author.level" data-mock="true">Pro Creator</div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-sm text-gray-500">Engagement</div>
+                                <div class="font-bold text-lime-green" data-bind="script.engagementRate" data-mock="true">94%</div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <h3 class="font-bold text-lg text-gray-900 mb-2" data-bind="script.title" data-mock="true">5-Minute Morning Routine</h3>
+                            <div class="flex items-center space-x-4 text-sm text-gray-500 mb-3">
+                                <span class="bg-electric-blue/10 text-electric-blue px-2 py-1 rounded" data-bind="script.type" data-mock="true">Instagram Reel</span>
+                                <span class="bg-neon-pink/10 text-neon-pink px-2 py-1 rounded" data-bind="script.niche" data-mock="true">Lifestyle</span>
+                            </div>
+                            <p class="text-gray-600 line-clamp-3" data-bind="script.preview" data-mock="true">
+                                "Your morning routine is about to change EVERYTHING! These 5 simple steps take less than 5 minutes but will transform your entire day..."
+                            </p>
+                        </div>
+
+                        <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                            <div class="flex items-center space-x-4 text-sm">
+                                <span class="text-red-500">
+                                    <i class="fas fa-heart mr-1"></i>
+                                    <span data-bind="script.likes" data-mock="true">1.2K</span>
+                                </span>
+                                <span class="text-electric-blue">
+                                    <i class="fas fa-eye mr-1"></i>
+                                    <span data-bind="script.views" data-mock="true">15K</span>
+                                </span>
+                                <span class="text-lime-green">
+                                    <i class="fas fa-share mr-1"></i>
+                                    <span data-bind="script.shares" data-mock="true">248</span>
+                                </span>
+                            </div>
+                            <button class="text-electric-blue hover:text-electric-blue/70 font-medium transition-colors" data-event="click:viewCommunityScript" data-implementation="Should open script in modal or new view">
+                                View Script
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Featured Script Card 2 -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105" data-mock="true">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-gradient-to-r from-neon-pink to-lime-green rounded-full flex items-center justify-center text-white font-semibold" data-bind="script.author.initials" data-mock="true">
+                                    JD
+                                </div>
+                                <div>
+                                    <div class="font-semibold text-gray-900" data-bind="script.author.name" data-mock="true">Jake D.</div>
+                                    <div class="text-sm text-gray-500" data-bind="script.author.level" data-mock="true">Tech Enthusiast</div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-sm text-gray-500">Engagement</div>
+                                <div class="font-bold text-lime-green" data-bind="script.engagementRate" data-mock="true">87%</div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <h3 class="font-bold text-lg text-gray-900 mb-2" data-bind="script.title" data-mock="true">AI Tools You Need Now</h3>
+                            <div class="flex items-center space-x-4 text-sm text-gray-500 mb-3">
+                                <span class="bg-electric-blue/10 text-electric-blue px-2 py-1 rounded" data-bind="script.type" data-mock="true">TikTok Video</span>
+                                <span class="bg-neon-pink/10 text-neon-pink px-2 py-1 rounded" data-bind="script.niche" data-mock="true">Technology</span>
+                            </div>
+                            <p class="text-gray-600 line-clamp-3" data-bind="script.preview" data-mock="true">
+                                "Stop wasting hours on tasks that AI can do in minutes! Here are 5 game-changing AI tools that will 10x your productivity..."
+                            </p>
+                        </div>
+
+                        <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                            <div class="flex items-center space-x-4 text-sm">
+                                <span class="text-red-500">
+                                    <i class="fas fa-heart mr-1"></i>
+                                    <span data-bind="script.likes" data-mock="true">856</span>
+                                </span>
+                                <span class="text-electric-blue">
+                                    <i class="fas fa-eye mr-1"></i>
+                                    <span data-bind="script.views" data-mock="true">12.3K</span>
+                                </span>
+                                <span class="text-lime-green">
+                                    <i class="fas fa-share mr-1"></i>
+                                    <span data-bind="script.shares" data-mock="true">194</span>
+                                </span>
+                            </div>
+                            <button class="text-electric-blue hover:text-electric-blue/70 font-medium transition-colors" data-event="click:viewCommunityScript">
+                                View Script
+                            </button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Featured Script Card 3 -->
+                <div class="bg-white rounded-xl shadow-lg overflow-hidden hover:shadow-xl transition-all duration-300 transform hover:scale-105" data-mock="true">
+                    <div class="p-6">
+                        <div class="flex items-center justify-between mb-4">
+                            <div class="flex items-center space-x-3">
+                                <div class="w-10 h-10 bg-gradient-to-r from-lime-green to-electric-blue rounded-full flex items-center justify-center text-white font-semibold" data-bind="script.author.initials" data-mock="true">
+                                    SC
+                                </div>
+                                <div>
+                                    <div class="font-semibold text-gray-900" data-bind="script.author.name" data-mock="true">Sarah C.</div>
+                                    <div class="text-sm text-gray-500" data-bind="script.author.level" data-mock="true">Business Coach</div>
+                                </div>
+                            </div>
+                            <div class="text-right">
+                                <div class="text-sm text-gray-500">Engagement</div>
+                                <div class="font-bold text-lime-green" data-bind="script.engagementRate" data-mock="true">91%</div>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <h3 class="font-bold text-lg text-gray-900 mb-2" data-bind="script.title" data-mock="true">Side Hustle Success</h3>
+                            <div class="flex items-center space-x-4 text-sm text-gray-500 mb-3">
+                                <span class="bg-electric-blue/10 text-electric-blue px-2 py-1 rounded" data-bind="script.type" data-mock="true">LinkedIn Post</span>
+                                <span class="bg-neon-pink/10 text-neon-pink px-2 py-1 rounded" data-bind="script.niche" data-mock="true">Business</span>
+                            </div>
+                            <p class="text-gray-600 line-clamp-3" data-bind="script.preview" data-mock="true">
+                                "I turned my side hustle into a 6-figure business in 12 months. Here's the exact framework I used (and you can too)..."
+                            </p>
+                        </div>
+
+                        <div class="flex items-center justify-between pt-4 border-t border-gray-100">
+                            <div class="flex items-center space-x-4 text-sm">
+                                <span class="text-red-500">
+                                    <i class="fas fa-heart mr-1"></i>
+                                    <span data-bind="script.likes" data-mock="true">2.1K</span>
+                                </span>
+                                <span class="text-electric-blue">
+                                    <i class="fas fa-eye mr-1"></i>
+                                    <span data-bind="script.views" data-mock="true">28K</span>
+                                </span>
+                                <span class="text-lime-green">
+                                    <i class="fas fa-share mr-1"></i>
+                                    <span data-bind="script.shares" data-mock="true">432</span>
+                                </span>
+                            </div>
+                            <button class="text-electric-blue hover:text-electric-blue/70 font-medium transition-colors" data-event="click:viewCommunityScript">
+                                View Script
+                            </button>
+                        </div>
+                    </div>
+                </div>
+                <!-- @END_MAP )) -->
+            </div>
+
+            <!-- Load More Button -->
+            <div class="text-center mt-12">
+                <button class="bg-gradient-to-r from-electric-blue to-neon-pink text-white px-8 py-4 rounded-lg text-lg font-semibold hover:shadow-lg transition-all duration-300 transform hover:scale-105" data-event="click:loadMoreCommunity" data-implementation="Load more community scripts with pagination">
+                    <i class="fas fa-plus mr-2"></i>
+                    Load More Scripts
+                </button>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: CommunityShowcase -->
+
+    <!-- About Section -->
+    <!-- @COMPONENT: AboutSection [company info and mission] -->
+    <section id="about" class="py-20 bg-white" data-component="about">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="text-center mb-16">
+                <h2 class="text-4xl font-bold text-gray-900 mb-4">About ReelWrite AI</h2>
+                <p class="text-xl text-gray-600 max-w-3xl mx-auto">Empowering creators with AI-powered tools to craft compelling content that converts</p>
+            </div>
+
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <!-- About Content -->
+                <div class="space-y-6">
+                    <h3 class="text-3xl font-bold text-gray-900">Our Mission</h3>
+                    <p class="text-lg text-gray-600">
+                        We believe every creator has a unique story to tell. Our AI-powered platform helps you transform your ideas into viral-worthy scripts that captivate audiences and drive engagement.
+                    </p>
+                    <p class="text-lg text-gray-600">
+                        Whether you're a seasoned content creator or just starting out, ReelWrite AI provides the tools and insights you need to create content that resonates with your audience and achieves your goals.
+                    </p>
+                    
+                    <!-- Key Features -->
+                    <div class="space-y-4">
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-electric-blue rounded-lg flex items-center justify-center">
+                                <i class="fas fa-brain text-white text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900">Advanced AI Models</h4>
+                                <p class="text-gray-600">Powered by state-of-the-art natural language processing</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-neon-pink rounded-lg flex items-center justify-center">
+                                <i class="fas fa-users text-white text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900">Creator Community</h4>
+                                <p class="text-gray-600">Connect and learn from thousands of fellow creators</p>
+                            </div>
+                        </div>
+                        
+                        <div class="flex items-center space-x-4">
+                            <div class="w-12 h-12 bg-lime-green rounded-lg flex items-center justify-center">
+                                <i class="fas fa-chart-line text-white text-xl"></i>
+                            </div>
+                            <div>
+                                <h4 class="font-semibold text-gray-900">Performance Analytics</h4>
+                                <p class="text-gray-600">Track and optimize your content's performance</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- About Image/Visual -->
+                <div class="relative">
+                    <!-- Creative workspace image showing content creation -->
+                    <img src="https://images.unsplash.com/photo-1552664730-d307ca884978?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=800&h=600" alt="Creative workspace with laptop and design materials" class="rounded-2xl shadow-2xl w-full" data-mock-image="true">
+                    
+                    <!-- Floating Stats Cards -->
+                    <div class="absolute -top-4 -left-4 bg-white rounded-lg shadow-lg p-4 animate-bounce-gentle">
+                        <div class="text-2xl font-bold text-electric-blue">50K+</div>
+                        <div class="text-sm text-gray-600">Scripts Created</div>
+                    </div>
+                    
+                    <div class="absolute -bottom-4 -right-4 bg-white rounded-lg shadow-lg p-4 animate-bounce-gentle" style="animation-delay: 1s;">
+                        <div class="text-2xl font-bold text-neon-pink">12K+</div>
+                        <div class="text-sm text-gray-600">Happy Creators</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- @END_COMPONENT: AboutSection -->
+
+    <!-- Footer -->
+    <!-- @COMPONENT: Footer [site links and info] -->
+    <footer class="bg-gray-900 text-white py-16" data-component="footer">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+            <div class="grid grid-cols-1 md:grid-cols-4 gap-8">
+                <!-- Company Info -->
+                <div class="space-y-4">
+                    <h3 class="text-2xl font-bold gradient-text">ReelWrite AI</h3>
+                    <p class="text-gray-300">
+                        Empowering creators with AI-powered script generation tools for viral content.
+                    </p>
+                    <div class="flex space-x-4">
+                        <a href="#" class="text-gray-400 hover:text-electric-blue transition-colors" data-event="click:openSocial">
+                            <i class="fab fa-twitter text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-neon-pink transition-colors" data-event="click:openSocial">
+                            <i class="fab fa-instagram text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-lime-green transition-colors" data-event="click:openSocial">
+                            <i class="fab fa-linkedin text-xl"></i>
+                        </a>
+                        <a href="#" class="text-gray-400 hover:text-electric-blue transition-colors" data-event="click:openSocial">
+                            <i class="fab fa-youtube text-xl"></i>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- Product -->
+                <div class="space-y-4">
+                    <h4 class="text-lg font-semibold">Product</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#features" class="text-gray-300 hover:text-white transition-colors" data-event="click:scrollToFeatures">Features</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Pricing</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Templates</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">API</a></li>
+                    </ul>
+                </div>
+
+                <!-- Resources -->
+                <div class="space-y-4">
+                    <h4 class="text-lg font-semibold">Resources</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Help Center</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Creator Guide</a></li>
+                        <li><a href="#community" class="text-gray-300 hover:text-white transition-colors" data-event="click:scrollToCommunity">Community</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Blog</a></li>
+                    </ul>
+                </div>
+
+                <!-- Company -->
+                <div class="space-y-4">
+                    <h4 class="text-lg font-semibold">Company</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#about" class="text-gray-300 hover:text-white transition-colors" data-event="click:scrollToAbout">About</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Careers</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Privacy</a></li>
+                        <li><a href="#" class="text-gray-300 hover:text-white transition-colors">Terms</a></li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Copyright -->
+            <div class="border-t border-gray-800 mt-12 pt-8 text-center">
+                <p class="text-gray-400">
+                    © 2024 ReelWrite AI. All rights reserved. Built with ❤️ for creators.
+                </p>
+            </div>
+        </div>
+    </footer>
+    <!-- @END_COMPONENT: Footer -->
+
+    <!-- Authentication Modal Overlay (Hidden by default) -->
+    <!-- @COMPONENT: AuthModal [login and signup forms] -->
+    <div id="authModal" class="fixed inset-0 bg-black bg-opacity-50 z-50 hidden flex items-center justify-center p-4" data-component="auth-modal" data-state="hidden">
+        <div class="bg-white rounded-2xl max-w-md w-full p-8 transform transition-all duration-300">
+            <!-- Modal Header -->
+            <div class="flex items-center justify-between mb-6">
+                <h3 class="text-2xl font-bold text-gray-900" data-bind="modal.title" data-mock="true">Welcome Back</h3>
+                <button class="text-gray-400 hover:text-gray-600 transition-colors" data-event="click:closeModal">
+                    <i class="fas fa-times text-xl"></i>
+                </button>
+            </div>
+
+            <!-- Login Form -->
+            <div id="loginForm" data-mock="true">
+                <form class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                        <input type="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-electric-blue focus:border-transparent" placeholder="your@email.com" data-bind="form.email">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                        <input type="password" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-electric-blue focus:border-transparent" placeholder="••••••••" data-bind="form.password">
+                    </div>
+                    <button type="submit" class="w-full bg-gradient-to-r from-electric-blue to-neon-pink text-white py-3 rounded-lg text-lg font-semibold hover:shadow-lg transition-all duration-300" data-event="click:handleLogin" data-implementation="Should validate and authenticate user">
+                        Sign In
+                    </button>
+                </form>
+
+                <div class="mt-6 text-center">
+                    <p class="text-gray-600">
+                        Don't have an account? 
+                        <button class="text-electric-blue font-semibold hover:text-electric-blue/70 transition-colors" data-event="click:switchToSignup">
+                            Sign up
+                        </button>
+                    </p>
+                </div>
+            </div>
+
+            <!-- Signup Form (Hidden by default) -->
+            <div id="signupForm" class="hidden" data-mock="true">
+                <form class="space-y-4">
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Full Name</label>
+                        <input type="text" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-electric-blue focus:border-transparent" placeholder="Your Name" data-bind="form.name">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Email</label>
+                        <input type="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-electric-blue focus:border-transparent" placeholder="your@email.com" data-bind="form.email">
+                    </div>
+                    <div>
+                        <label class="block text-sm font-medium text-gray-700 mb-2">Password</label>
+                        <input type="password" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-electric-blue focus:border-transparent" placeholder="••••••••" data-bind="form.password">
+                    </div>
+                    <button type="submit" class="w-full bg-gradient-to-r from-electric-blue to-neon-pink text-white py-3 rounded-lg text-lg font-semibold hover:shadow-lg transition-all duration-300" data-event="click:handleSignup" data-implementation="Should validate and create new user account">
+                        Create Account
+                    </button>
+                </form>
+
+                <div class="mt-6 text-center">
+                    <p class="text-gray-600">
+                        Already have an account? 
+                        <button class="text-electric-blue font-semibold hover:text-electric-blue/70 transition-colors" data-event="click:switchToLogin">
+                            Sign in
+                        </button>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- @END_COMPONENT: AuthModal -->
+
+    <script>
+        // TODO: Implement business logic, API calls, and state management
+        
+        (function() {
+            // Smooth scrolling for navigation links
+            function scrollToSection(sectionId) {
+                const element = document.getElementById(sectionId);
+                if (element) {
+                    element.scrollIntoView({ behavior: 'smooth' });
+                }
+            }
+
+            // Modal management
+            function openModal(modalType) {
+                const modal = document.getElementById('authModal');
+                const loginForm = document.getElementById('loginForm');
+                const signupForm = document.getElementById('signupForm');
+                const title = modal.querySelector('[data-bind="modal.title"]');
+                
+                modal.classList.remove('hidden');
+                
+                if (modalType === 'signup') {
+                    loginForm.classList.add('hidden');
+                    signupForm.classList.remove('hidden');
+                    title.textContent = 'Join ReelWrite AI';
+                } else {
+                    loginForm.classList.remove('hidden');
+                    signupForm.classList.add('hidden');
+                    title.textContent = 'Welcome Back';
+                }
+            }
+
+            function closeModal() {
+                const modal = document.getElementById('authModal');
+                modal.classList.add('hidden');
+            }
+
+            // Event listeners for demonstration purposes
+            document.addEventListener('click', function(e) {
+                const target = e.target.closest('[data-event]');
+                if (!target) return;
+                
+                const event = target.getAttribute('data-event');
+                
+                switch(event) {
+                    case 'click:scrollToFeatures':
+                        e.preventDefault();
+                        scrollToSection('features');
+                        break;
+                    case 'click:scrollToCommunity':
+                        e.preventDefault();
+                        scrollToSection('community');
+                        break;
+                    case 'click:scrollToAbout':
+                        e.preventDefault();
+                        scrollToSection('about');
+                        break;
+                    case 'click:openLogin':
+                        openModal('login');
+                        break;
+                    case 'click:openSignup':
+                        openModal('signup');
+                        break;
+                    case 'click:closeModal':
+                        closeModal();
+                        break;
+                    case 'click:switchToSignup':
+                        openModal('signup');
+                        break;
+                    case 'click:switchToLogin':
+                        openModal('login');
+                        break;
+                    case 'click:startCreating':
+                        // Check authentication state - for demo, open signup
+                        openModal('signup');
+                        break;
+                    case 'click:watchDemo':
+                        // Open YouTube demo link
+                        window.open('https://youtube.com/watch?v=demo', '_blank');
+                        break;
+                    default:
+                        console.log('Event handler needed for:', event);
+                }
+            });
+
+            // Close modal when clicking outside
+            document.getElementById('authModal').addEventListener('click', function(e) {
+                if (e.target === this) {
+                    closeModal();
+                }
+            });
+
+            // Form submission handlers (demo only)
+            document.addEventListener('submit', function(e) {
+                e.preventDefault();
+                const form = e.target;
+                const isLogin = form.closest('#loginForm');
+                
+                if (isLogin) {
+                    console.log('Login form submitted');
+                    // TODO: Implement login logic
+                } else {
+                    console.log('Signup form submitted');
+                    // TODO: Implement signup logic
+                }
+                
+                // For demo, close modal after submission
+                setTimeout(() => {
+                    closeModal();
+                    // TODO: Redirect to dashboard on successful auth
+                }, 1000);
+            });
+
+            // Copy to clipboard functionality
+            window.copyToClipboard = function(text) {
+                navigator.clipboard.writeText(text).then(() => {
+                    // TODO: Show success toast
+                    console.log('Copied to clipboard');
+                });
+            };
+
+            // Initialize page
+            console.log('ReelWrite AI Demo Loaded');
+        })();
+    </script>
+
+</body>
+</html>
